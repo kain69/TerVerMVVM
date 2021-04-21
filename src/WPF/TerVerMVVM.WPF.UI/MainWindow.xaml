@@ -1,0 +1,347 @@
+﻿<Window x:Class="TerVerMVVM.WPF.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TerVerMVVM.WPF.UI"
+        xmlns:vm="clr-namespace:TerVerMVVM.Shared.ViewModels;assembly=TerVerMVVM.Shared.ViewModels"
+        mc:Ignorable="d"
+        Title="Изи ТерВер сдал!"
+        MaxWidth="900" MaxHeight="643"
+        MinWidth="900" MinHeight="559"
+        Width="900" Height="559" Background="Gainsboro"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Style TargetType="TextBox" x:Key="TextBoxTemplate">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Padding="2" Background="White" BorderBrush="Black" BorderThickness="1">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsReadOnly" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border Padding="2" Background="WhiteSmoke" BorderBrush="Black" BorderThickness="1">
+                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="FontSize" Value="11"/>
+        </Style>
+        <Style
+        x:Key="ButtonFocusVisual">
+            <Setter
+            Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border
+                                x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+
+                            <ContentPresenter
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Margin="{TemplateBinding Padding}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                RecognizesAccessKey="True" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="OpacityMask" Value="#AA888888"/>
+                                <Setter Property="Margin" Value="2 1" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Background" Value="GhostWhite"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#ADADAD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxTemplate}" x:Key="Designation">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="MaxLines" Value="1"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Padding="2" Background="Gainsboro" BorderBrush="Black" BorderThickness="1">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxTemplate}" x:Key="Answer">
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="MaxLines" Value="1"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <TabControl DockPanel.Dock="Top">
+            <TabItem Header="Calculator">
+                <TabItem.Content>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical">
+                            <TextBox Margin="5" Style="{StaticResource TextBoxTemplate}"/>
+                            <Button Margin="0,0,5,5"
+                                    HorizontalAlignment="Right"  Content="Calculate"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                            <GroupBox Header="Выборочный начальный момент n-ого порядка (m1 - оценка мат. ожидания)">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Row="0" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="m1" Foreground="Black"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="m2" Foreground="Black" />
+                                    <TextBox Grid.Row="2" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="m3" Foreground="Black"/>
+                                    <TextBox Grid.Row="3" Grid.Column="0" 
+                                             Style="{StaticResource Designation}" Text="m4" Foreground="Black"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBox Grid.Row="2" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBox Grid.Row="3" Grid.Column="1" 
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"
+                                           Margin="2" Source="Resources/Image/m.png"  Height="150"/>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="Мода и Медиана">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Row="0" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="Xmod" Foreground="Black"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="Xmed" Foreground="Black"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Padding="5,0,5,0"
+                                               Background="White" Margin="1" TextWrapping="Wrap">
+                                        <Run Text="Xmod (Мода) - наиболее часто встречающееся значение выборки."/>
+                                        <LineBreak/>
+                                        <Run Text="Xmed (Медиана) - значение выборки являющееся серединой вариационного ряда."/>
+                                    </TextBlock>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="Вариационный ряд">
+                                <Border BorderBrush="Black" BorderThickness="0.5">
+                                    <TextBox Foreground="Black" VerticalAlignment="Center" Style="{StaticResource TextBoxTemplate}"
+                                             Background="White" Text=""
+                                             FontSize="13" IsReadOnly="True"/>
+                                </Border>
+                            </GroupBox>
+                        </StackPanel>
+                        <GroupBox Grid.Row="0" Grid.Column="1" Header="Оценка дисперсии" VerticalAlignment="Stretch">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Row="0" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="Sx" Foreground="Black"/>
+                                <TextBox Grid.Row="0" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                                           Margin="2" Source="Resources/Image/s.png"/>
+                            </Grid>
+                        </GroupBox>
+                        <StackPanel Grid.Row="1" Grid.Column="1">
+                            <GroupBox  Header="Выборочный центральный момент n-ого порядка (v2 - дисперсия)">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Row="0" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="v2" Foreground="Black"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="v3" Foreground="Black"/>
+                                    <TextBox Grid.Row="2" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="v4" Foreground="Black"/>
+                                    <TextBox Grid.Row="3" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="v5" Foreground="Black"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBox Grid.Row="2" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBox Grid.Row="3" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"
+                                           Margin="2"  Source="Resources/Image/v.png"  Height="150"/>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="Коэффициент Асимметрии и Эксцесса">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="70"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Row="0" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="Kas" Foreground="Black"/>
+                                    <TextBox Grid.Row="1" Grid.Column="0"
+                                             Style="{StaticResource Designation}" Text="Kex" Foreground="Black"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1"
+                                             Style="{StaticResource Answer}" Text="1"/>
+                                    <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="3"
+                                           Margin="2" Source="Resources/Image/kexkas.png"  Height="150"/>
+
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Header="Table and Gisto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Header="Данные для таблицы и гистограммы">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Row="0" Grid.Column="0"
+                                     Style="{StaticResource Designation}"
+                                     Text="Количество столбцов"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Width="60"
+                                     IsReadOnly="False"
+                                     Style="{StaticResource Answer}" Text="1"/>
+                            <TextBox Grid.Row="1" Grid.Column="0"
+                                     Style="{StaticResource Designation}"
+                                     Text="Ширина столбца"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Width="60"
+                                     Style="{StaticResource Answer}" Text="1"/>
+                        </Grid>
+                    </GroupBox>
+                    <DataGrid Grid.Row="1" Grid.Column="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Номер"/>
+                            <DataGridHyperlinkColumn Header="Интервал"/>
+                            <DataGridTextColumn Header="Частота" />
+                            <DataGridTextColumn Header="Высота столбца"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </DockPanel>
+</Window>

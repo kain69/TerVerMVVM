@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Image\kexkas.png" />
+    <None Remove="Resources\Image\logo.ico" />
+    <None Remove="Resources\Image\logo.png" />
+    <None Remove="Resources\Image\m.png" />
+    <None Remove="Resources\Image\s.png" />
+    <None Remove="Resources\Image\v.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\TerVerMVVM.Shared.ViewModels\TerVerMVVM.Shared.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Image\kexkas.png" />
+    <Resource Include="Resources\Image\logo.ico" />
+    <Resource Include="Resources\Image\logo.png" />
+    <Resource Include="Resources\Image\m.png" />
+    <Resource Include="Resources\Image\s.png" />
+    <Resource Include="Resources\Image\v.png" />
+  </ItemGroup>
+
+</Project>
