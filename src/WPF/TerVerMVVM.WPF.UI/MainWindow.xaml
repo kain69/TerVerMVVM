@@ -7,16 +7,23 @@
         xmlns:vm="clr-namespace:TerVerMVVM.Shared.ViewModels;assembly=TerVerMVVM.Shared.ViewModels"
         mc:Ignorable="d"
         Title="Изи ТерВер сдал!"
-        MaxWidth="900" MaxHeight="643"
+        MaxWidth="900" MaxHeight="559"
         MinWidth="900" MinHeight="559"
         Width="900" Height="559" Background="Gainsboro"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" FontFamily="Calibri"
+        FocusManager.FocusedElement="{Binding ElementName=Input}">
 
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
 
+    <Window.InputBindings>
+        <KeyBinding Key="Return" Command="{Binding CalcCommand}" />
+    </Window.InputBindings>
+
     <Window.Resources>
+        <vm:DoubleToStringConverter x:Key="DoubleConverter"/>
+
         <Style TargetType="TextBox" x:Key="TextBoxTemplate">
             <Setter Property="Template">
                 <Setter.Value>
@@ -43,6 +50,7 @@
         </Style>
         <Style TargetType="GroupBox">
             <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Margin" Value="5,0,5,0"/>
         </Style>
         <Style
         x:Key="ButtonFocusVisual">
@@ -140,8 +148,13 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Vertical">
-                            <TextBox Margin="5" Style="{StaticResource TextBoxTemplate}"/>
-                            <Button Margin="0,0,5,5"
+                            <TextBox x:Name="Input" Margin="5" Style="{StaticResource TextBoxTemplate}"
+                                     Text="{Binding Seq, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding CalcCommand}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <Button Margin="0,0,5,5" Command="{Binding CalcCommand}"
                                     HorizontalAlignment="Right"  Content="Calculate"/>
                         </StackPanel>
                         <StackPanel Grid.Row="1" Orientation="Vertical">
@@ -167,13 +180,13 @@
                                     <TextBox Grid.Row="3" Grid.Column="0" 
                                              Style="{StaticResource Designation}" Text="m4" Foreground="Black"/>
                                     <TextBox Grid.Row="0" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding M1, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBox Grid.Row="1" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding M2, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBox Grid.Row="2" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding M3, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBox Grid.Row="3" Grid.Column="1" 
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding M4, Converter={StaticResource DoubleConverter}}"/>
                                     <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"
                                            Margin="2" Source="Resources/Image/m.png"  Height="150"/>
                                 </Grid>
@@ -196,9 +209,9 @@
                                     <TextBox Grid.Row="1" Grid.Column="0"
                                              Style="{StaticResource Designation}" Text="Xmed" Foreground="Black"/>
                                     <TextBox Grid.Row="0" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding Xmod, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBox Grid.Row="1" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding Xmed, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBlock Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Padding="5,0,5,0"
                                                Background="White" Margin="1" TextWrapping="Wrap">
                                         <Run Text="Xmod (Мода) - наиболее часто встречающееся значение выборки."/>
@@ -210,7 +223,7 @@
                             <GroupBox Header="Вариационный ряд">
                                 <Border BorderBrush="Black" BorderThickness="0.5">
                                     <TextBox Foreground="Black" VerticalAlignment="Center" Style="{StaticResource TextBoxTemplate}"
-                                             Background="White" Text=""
+                                             Background="White" Text="{Binding VarSeq}"
                                              FontSize="13" IsReadOnly="True"/>
                                 </Border>
                             </GroupBox>
@@ -229,7 +242,7 @@
                                 <TextBox Grid.Row="0" Grid.Column="0"
                                              Style="{StaticResource Designation}" Text="Sx" Foreground="Black"/>
                                 <TextBox Grid.Row="0" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding Sx, Converter={StaticResource DoubleConverter}}"/>
                                 <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
                                            Margin="2" Source="Resources/Image/s.png"/>
                             </Grid>
@@ -257,13 +270,13 @@
                                     <TextBox Grid.Row="3" Grid.Column="0"
                                              Style="{StaticResource Designation}" Text="v5" Foreground="Black"/>
                                     <TextBox Grid.Row="0" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding V2, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBox Grid.Row="1" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding V3, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBox Grid.Row="2" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding V4, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBox Grid.Row="3" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding V5, Converter={StaticResource DoubleConverter}}"/>
                                     <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"
                                            Margin="2"  Source="Resources/Image/v.png"  Height="150"/>
                                 </Grid>
@@ -285,9 +298,9 @@
                                     <TextBox Grid.Row="1" Grid.Column="0"
                                              Style="{StaticResource Designation}" Text="Kex" Foreground="Black"/>
                                     <TextBox Grid.Row="0" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding Kas, Converter={StaticResource DoubleConverter}}"/>
                                     <TextBox Grid.Row="1" Grid.Column="1"
-                                             Style="{StaticResource Answer}" Text="1"/>
+                                             Style="{StaticResource Answer}" Text="{Binding Kex, Converter={StaticResource DoubleConverter}}"/>
                                     <Image Grid.Row="0" Grid.Column="2" Grid.RowSpan="3"
                                            Margin="2" Source="Resources/Image/kexkas.png"  Height="150"/>
 
